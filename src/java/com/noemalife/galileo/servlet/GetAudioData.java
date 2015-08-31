@@ -22,67 +22,101 @@ public class GetAudioData {
 
     public String generateData(String jsonp) throws JSONException {
         JSONObject finalJsonObject = new JSONObject();
-        JSONArray xaxisArray = new JSONArray();
-        JSONObject seriesJsonObject = new JSONObject();
+        JSONArray charDataArray = new JSONArray();
+        JSONObject categoryObject = new JSONObject();
+        JSONObject serieVAODObject = new JSONObject();
+        JSONObject serieVAOIObject = new JSONObject();
+        JSONObject serieVOODObject = new JSONObject();
+        JSONObject serieVOOIObject = new JSONObject();
+        
+        
         JSONArray dataVaodArray = new JSONArray();
         JSONArray dataVaoiArray = new JSONArray();
         JSONArray dataVoodArray = new JSONArray();
         JSONArray dataVooiArray = new JSONArray();
+        JSONArray categoryArray = new JSONArray();
         
         ArrayList<AudioData> array = new ArrayList<AudioData>();
+        
         AudioData ad = new AudioData();
         
-        ad.setFrecuencia(125);
-        ad.setVaod(24);
-        ad.setVaoi(25);
-        ad.setVood(30);
-        ad.setVooi(45);
+        ad.setCat125(25);
+        ad.setCat250(20);
+        ad.setCat500(30);
+        ad.setCat1000(25);
+        ad.setCat2000(20);
+        ad.setCat3000(35);
+        ad.setCat4000(40);
+        ad.setCat6000(10);
+        ad.setCat8000(15);
         array.add(ad);
         
-        ad.setFrecuencia(250);
-        ad.setVaod(58);
-        ad.setVaoi(45);
-        ad.setVood(42);
-        ad.setVooi(50);
+        ad = new AudioData();
+        ad.setCat125(25);
+        ad.setCat250(20);
+        ad.setCat500(30);
+        ad.setCat1000(25);
+        ad.setCat2000(20);
+        ad.setCat3000(35);
+        ad.setCat4000(40);
+        ad.setCat6000(10);
+        ad.setCat8000(15);
         array.add(ad);
         
-        ad.setFrecuencia(500);
-        ad.setVaod(76);
-        ad.setVaoi(76);
-        ad.setVood(65);
-        ad.setVooi(65);
+        ad = new AudioData();
+        ad.setCat125(25);
+        ad.setCat250(20);
+        ad.setCat500(30);
+        ad.setCat1000(25);
+        ad.setCat2000(20);
+        ad.setCat3000(35);
+        ad.setCat4000(40);
+        ad.setCat6000(10);
+        ad.setCat8000(15);
         array.add(ad);
         
-        ad.setFrecuencia(1000);
-        ad.setVaod(76);
-        ad.setVaoi(76);
-        ad.setVood(65);
-        ad.setVooi(65);
+        ad = new AudioData();
+        ad.setCat125(25);
+        ad.setCat250(20);
+        ad.setCat500(30);
+        ad.setCat1000(25);
+        ad.setCat2000(20);
+        ad.setCat3000(35);
+        ad.setCat4000(40);
+        ad.setCat6000(10);
+        ad.setCat8000(15);
         array.add(ad);
-        
-        ad.setFrecuencia(2000);
-        ad.setVaod(76);
-        ad.setVaoi(76);
-        ad.setVood(65);
-        ad.setVooi(65);
-        array.add(ad);
-        
+
+        System.out.println(array.toString());
         for(int i=0; i < array.size(); i++){
-            xaxisArray.put(array.get(i).getFrecuencia());
-            dataVaodArray.put(array.get(i).getVaod());
-            dataVaoiArray.put(array.get(i).getVaoi());
-            dataVoodArray.put(array.get(i).getVood());
-            dataVooiArray.put(array.get(i).getVooi());
+            System.out.println(array.get(i).getCat125());
+            dataVaodArray.put(array.get(i).getCat125());
+            dataVaodArray.put(array.get(i).getCat250());
+            dataVaodArray.put(array.get(i).getCat500());
+            dataVaodArray.put(array.get(i).getCat1000());
+            dataVaodArray.put(array.get(i).getCat2000());
+            dataVaodArray.put(array.get(i).getCat3000());
+            dataVaodArray.put(array.get(i).getCat4000());
+            dataVaodArray.put(array.get(i).getCat6000());
+            dataVaodArray.put(array.get(i).getCat8000());
+           
         }
-        seriesJsonObject.put("categories", xaxisArray);
-        seriesJsonObject.put("name", "VAOD");
-        seriesJsonObject.put("color", "red");
-        seriesJsonObject.put("data", dataVaodArray);
+        serieVAODObject.put("name", "VAOD");
+        serieVAODObject.put("color", "red");
+        serieVAODObject.put("data", dataVaodArray);
+        charDataArray.put(serieVAODObject);
         
-        finalJsonObject.put(jsonp, seriesJsonObject);
+        serieVAOIObject.put("name", "VAOI");
+        serieVAOIObject.put("color", "blue");
+        serieVAOIObject.put("data", dataVaoiArray);
+        charDataArray.put(serieVAOIObject);
+        
+        
+        finalJsonObject.put(jsonp, charDataArray);
         
         
         System.out.println(finalJsonObject);
-        return finalJsonObject.toString();
+        String  tempStr=jsonp+"("+finalJsonObject.toString()+")";
+        return tempStr;
     }
 }

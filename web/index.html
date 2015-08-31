@@ -22,84 +22,89 @@
             </table>
         </div>
         <script type="text/javascript">
-
-            $(function() {
-                generateChart();
-
-            });
-            function passpercentage(json) {
-
-                $(function() {
-
-                    var len = json.passpercentage.length
-                    i = 0;
-
-                    var options = {
-                        chart: {
-                            type: 'line'
-
-                        },
-                        credits: {
-                            enabled: false
-                        },
-                        title: {
-                            text: 'Audiograma'
-                        },
-                        xAxis: {
-                            categories: []
-                        },
-                        yAxis: {
-                            min: -10,
-                            max: 110,
-                            reversed: true,
-                            tickInterval: 5,
-                            title: {
-                                text: 'Intensidad'
-                            }
-                        },
-                        series: []
+ 
+$(function() {
+    console.log("inicio script");
+    generateChart();
+ 
+  });
+ 
+function passpercentage(json) {
+ 
+    $(function () {
+ 
+        var len = json.passpercentage.length
+        i = 0;
+        console.log(len);
+ 
+        var options = {
+             chart: {
+                    type: 'line'
+                },
+             credits: {
+                 enabled: false
+                },
+            title: {
+                text: 'Audiograma'
+             },
+              yAxis: {
+                  title: {
+                      text: 'Intensidad(HL)'
+                  },
+                min: -10,
+                max: 110,
+                tickInterval: 5,
+                reversed: true
+            },
+            xAxis: {
+                title: {
+                    text: 'Frecuencia(Hz)',
+                },
+                categories: []
+            },
+            series: []
+        }
+ 
+            for (i; i < len; i++) {
+                if (i === 0) {
+                    var dat = json.passpercentage[i].category,
+                        lenJ = dat.length,
+                        j = 0,
+                        tmp;
+ 
+                    for (j; j < lenJ; j++) {
+                        options.xAxis.categories.push(dat[j]);
                     }
-
-                   // for (i; i < len; i++) {
-                     //   if (i === 0) {
-                       //     var dat = json.passpercentage[i].category,
-                         //           lenJ = dat.length,
-                           //         j = 0,
-                             //       tmp;
-
-                            //for (j; j < lenJ; j++) {
-                           //     options.xAxis.categories.push(dat[j]);
-                           // }
-                        //} else {
-                        //    options.series.push(json.passpercentage[i]);
-                        //}
-                   // }
-
-                    $('#placeholder').highcharts(options);
-
-                });
-
+                } else {
+                    options.series.push(json.passpercentage[i]);
+                }
             }
-
-
-            function generateChart()
-            {
-
-                chartType = "passpercentage";
-                $("#placeholder").text("");
-
-                $.ajax({
-                    type: "GET",
-                    url: "http://localhost:8080/NMCLAudioJS/GetAudioDetails?jsonp=" + chartType,
-                    dataType: 'jsonp',
-                    jsonpCallback: chartType, // the function to call
-                    error: function() {
-                        alert("Error is occured");
+ 
+        $('#placeholder').highcharts(options);
+ 
+    });
+ 
+    }
+ 
+function generateChart()
+{
+ 
+chartType="passpercentage";
+$("#placeholder").text("");
+ 
+     $.ajax({
+            type: "GET",
+            url:"http://localhost:8080/NMCLAudioJS/GetAudioDetails?jsonp="+chartType,
+            dataType: 'jsonp',
+            jsonpCallback: chartType, // the function to call
+            error: function () {
+                   alert("Error is occured");
                     }
-                });
-
-            }
-        </script> 
+            }); 
+ 
+}
+ 
+</script>
 
     </body>
 </html>
