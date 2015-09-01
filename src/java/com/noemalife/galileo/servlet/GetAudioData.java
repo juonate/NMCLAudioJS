@@ -5,6 +5,8 @@
 package com.noemalife.galileo.servlet;
 
 import java.util.ArrayList;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -20,90 +22,30 @@ public class GetAudioData {
 //        ad.generateData();
 //    }
 
-    public String generateData(String jsonp) throws JSONException {
+    public String generateData(String jsonp, String sVaod, String sVaoi, String sVood, String sVooi) throws JSONException {
         JSONObject finalJsonObject = new JSONObject();
         JSONArray charDataArray = new JSONArray();
-        JSONObject categoryObject = new JSONObject();
         JSONObject serieVAODObject = new JSONObject();
         JSONObject serieVAOIObject = new JSONObject();
         JSONObject serieVOODObject = new JSONObject();
         JSONObject serieVOOIObject = new JSONObject();
         
         
-        JSONArray dataVaodArray = new JSONArray();
-        JSONArray dataVaoiArray = new JSONArray();
-        JSONArray dataVoodArray = new JSONArray();
-        JSONArray dataVooiArray = new JSONArray();
-        JSONArray categoryArray = new JSONArray();
+        JSONArray dataVaodArray = parseCoordinates(sVaod, "VAOD");
+        JSONArray dataVaoiArray = parseCoordinates(sVaoi, "VAOI");
+        JSONArray dataVoodArray = parseCoordinates(sVood, "VOOI");
+        JSONArray dataVooiArray = parseCoordinates(sVooi, "VOOI");
         
-        ArrayList<AudioData> array = new ArrayList<AudioData>();
-        
-        AudioData ad = new AudioData();
-        
-        ad.setCat125(25);
-        ad.setCat250(20);
-        ad.setCat500(30);
-        ad.setCat1000(25);
-        ad.setCat2000(20);
-        ad.setCat3000(35);
-        ad.setCat4000(40);
-        ad.setCat6000(10);
-        ad.setCat8000(15);
-        array.add(ad);
-        
-        ad = new AudioData();
-        ad.setCat125(25);
-        ad.setCat250(20);
-        ad.setCat500(30);
-        ad.setCat1000(25);
-        ad.setCat2000(20);
-        ad.setCat3000(35);
-        ad.setCat4000(40);
-        ad.setCat6000(10);
-        ad.setCat8000(15);
-        array.add(ad);
-        
-        ad = new AudioData();
-        ad.setCat125(25);
-        ad.setCat250(20);
-        ad.setCat500(30);
-        ad.setCat1000(25);
-        ad.setCat2000(20);
-        ad.setCat3000(35);
-        ad.setCat4000(40);
-        ad.setCat6000(10);
-        ad.setCat8000(15);
-        array.add(ad);
-        
-        ad = new AudioData();
-        ad.setCat125(25);
-        ad.setCat250(20);
-        ad.setCat500(30);
-        ad.setCat1000(25);
-        ad.setCat2000(20);
-        ad.setCat3000(35);
-        ad.setCat4000(40);
-        ad.setCat6000(10);
-        ad.setCat8000(15);
-        array.add(ad);
-
-        System.out.println(array.toString());
-        for(int i=0; i < array.size(); i++){
-            System.out.println(array.get(i).getCat125());
-            dataVaodArray.put(array.get(i).getCat125());
-            dataVaodArray.put(array.get(i).getCat250());
-            dataVaodArray.put(array.get(i).getCat500());
-            dataVaodArray.put(array.get(i).getCat1000());
-            dataVaodArray.put(array.get(i).getCat2000());
-            dataVaodArray.put(array.get(i).getCat3000());
-            dataVaodArray.put(array.get(i).getCat4000());
-            dataVaodArray.put(array.get(i).getCat6000());
-            dataVaodArray.put(array.get(i).getCat8000());
-           
+        for(int i=0; i < dataVaodArray.length(); i++){
+            System.out.println(dataVaodArray.get(i).toString().matches("(\\d+\\*)"));
+            if(dataVaodArray.get(i).toString().matches("(\\d+\\*)")){
+                System.out.println(dataVaodArray.getJSONArray(i));
+            }
         }
+        
         serieVAODObject.put("name", "VAOD");
         serieVAODObject.put("color", "red");
-        serieVAODObject.put("data", dataVaodArray);
+//        serieVAODObject.put("data", dataVaodArray);
         charDataArray.put(serieVAODObject);
         
         serieVAOIObject.put("name", "VAOI");
@@ -118,5 +60,18 @@ public class GetAudioData {
         System.out.println(finalJsonObject);
         String  tempStr=jsonp+"("+finalJsonObject.toString()+")";
         return tempStr;
+    }
+    
+    public JSONArray parseCoordinates(String input, String label) {
+        JSONArray serieArray = new JSONArray();
+//        Pattern pattern = Pattern.compile("(\\d+),([-]\\d+|\\d+)");
+        Pattern pattern = Pattern.compile("(\\d+),(-?\\d+\\*?|\\d+\\*?)");
+        Matcher matcher = pattern.matcher(input);
+        while (matcher.find()) {
+            String limpia = matcher.group(2).replace("*", "");
+            int y = Integer.parseInt(limpia);
+            serieArray.put(Integer.parseInt(limpia));
+        }
+        return serieArray;
     }
 }

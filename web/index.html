@@ -60,24 +60,13 @@ function passpercentage(json) {
                 title: {
                     text: 'Frecuencia(Hz)',
                 },
-                categories: []
+                categories: ['125','250','500','1000','2000','3000','4000', '6000', '8000']
             },
             series: []
         }
  
             for (i; i < len; i++) {
-                if (i === 0) {
-                    var dat = json.passpercentage[i].category,
-                        lenJ = dat.length,
-                        j = 0,
-                        tmp;
- 
-                    for (j; j < lenJ; j++) {
-                        options.xAxis.categories.push(dat[j]);
-                    }
-                } else {
                     options.series.push(json.passpercentage[i]);
-                }
             }
  
         $('#placeholder').highcharts(options);
