@@ -77,13 +77,16 @@ function passpercentage(json) {
  
 function generateChart()
 {
- 
+vaod = getQueryVariable("VAOD");
+vaoi = getQueryVariable("VAOI");
+vood = getQueryVariable("VOOD");
+vooi = getQueryVariable("VOOI");
 chartType="passpercentage";
 $("#placeholder").text("");
  
      $.ajax({
             type: "GET",
-            url:"http://localhost:8080/NMCLAudioJS/GetAudioDetails?jsonp="+chartType,
+            url:"http://mssiww04.mutualseg.cl:8080/NMCLAudioJS/GetAudioDetails?jsonp="+chartType + "&VAOD=" + vaod + "&VAOI=" + vaoi + "&VOOD=" + vood +"&VOOI="+vooi,
             dataType: 'jsonp',
             jsonpCallback: chartType, // the function to call
             error: function () {
@@ -92,6 +95,17 @@ $("#placeholder").text("");
             }); 
  
 }
+function getQueryVariable(variable) {
+                var query = window.location.search.substring(1);
+                var vars = query.split("&");
+                for (var i = 0; i < vars.length; i++) {
+                    var pair = vars[i].split("=");
+                    if (pair[0] == variable) {
+                        return pair[1];
+                    }
+                }
+                alert('Query Variable ' + variable + ' not found');
+            }
  
 </script>
 
